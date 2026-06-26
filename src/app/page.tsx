@@ -17,7 +17,7 @@ export default async function Page() {
   const todo =  await fetch(`https://jsonplaceholder.typicode.com/todos/${content}`, {
     cache: 'no-store' // 关闭缓存，强制每次请求都获取最新数据
   }).then(res => res.json());
-  return <div>这组件的随机数是 {content}
+  return <div className="text-amber-600">这组件的随机数是 {content}
   <p>{ todo.title }</p>
   </div>
 }
