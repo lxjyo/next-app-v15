@@ -1,8 +1,17 @@
-import { connection } from 'next/server'
+import { neon } from '@neondatabase/serverless'
+const sql = neon(`${process.env.DATABASE_URL}`)
 
-function getRandomNumber() {
-  return Math.floor(Math.random() * 100);
-}
+// 查
+
+
+// // 增
+// const result = await sql('INSERT INTO users (username, password) VALUES ($1, $2)', [username, password])
+
+// // 改
+// const result = await sql('UPDATE users SET username = $1 WEHRE id = 1', [username])
+
+// // 删
+// const result = await sql('DELETE FROM users WHERE id = $1', [id])
 
 /**
  * 开发环境 每次刷新页面都会生成一个新的随机数
@@ -10,14 +19,29 @@ function getRandomNumber() {
  * 除非你重新部署应用，否则这个随机数不会改变
  * 
  */
+
+import { revalidatePath } from 'next/cache'
 export default async function Page() {
-  await connection(); // 切换成动态渲染
-  const content = getRandomNumber();
-  // fetch 默认是缓存的（静态渲染），生产环境会被缓存，所以每次请求都会得到同一个结果
-  const todo =  await fetch(`https://jsonplaceholder.typicode.com/todos/${content}`, {
-    cache: 'no-store' // 关闭缓存，强制每次请求都获取最新数据
-  }).then(res => res.json());
-  return <div className="text-amber-600">这组件的随机数是 {content}
-  <p>{ todo.title }</p>
+ const result = await sql`SELECT * FROM users`;
+ async function createAction(formData: FormData) {
+  'use server'
+  const username = formData.get('username');
+  const password = formData.get('password');
+  await sql`INSERT INTO users (username, password) VALUES (${username}, ${password})`;
+  revalidatePath('/');
+ }
+  return <div className="text-amber-600">
+    <form action={createAction}>
+      <input type="text" name="username" placeholder="username" className="border p-2" />
+      <input type="text" name="password" placeholder="password" className="border p-2" />
+      <button type="submit" className="bg-blue-500 text-white p-2">create</button>
+    </form>
+    { result.map((item: any) => (
+      <div key={item.id}>
+        <p>id: {item.id}</p>
+        <p>username: {item.username}</p>
+        <p>password: {item.password}</p>
+      </div>
+    )) }
   </div>
 }
