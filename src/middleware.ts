@@ -7,7 +7,7 @@
 import { NextResponse, NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   console.log(request.nextUrl.pathname);
-  const auth = false;
+  const auth = true;
   if (!auth) {
     const pathname = request.nextUrl.pathname;
     if (pathname.startsWith("/api")) {
