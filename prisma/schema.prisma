@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String? @db.VarChar
+  password String? @db.VarChar
+
+  // 💡 必须加上这一行！表示一个用户可以拥有多篇文章（反向关联）
+  posts    Post[]
+  
+  @@map("users")
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  
+  // 💡 添加这两个字段建立与 User 的关联
+  authorId  Int
+  author    User    @relation(fields: [authorId], references: [id])
+
+  @@map("posts") // 如果你数据库里的表名是小写复数 posts
+}
