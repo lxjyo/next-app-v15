@@ -30,3 +30,12 @@ model Post {
 
   @@map("posts") // 如果你数据库里的表名是小写复数 posts
 }
+
+model Note {
+  id Int @id @default(autoincrement())
+  title String
+  content String
+  createdAt DateTime @default(now())
+
+  @@map("notes") // 如果你数据库里的表名是小写复数 posts
+}

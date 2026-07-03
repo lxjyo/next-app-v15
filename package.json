@@ -14,13 +14,17 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@types/react-slick": "^0.23.13",
+    "dayjs": "^1.11.21",
     "json-server": "0.17.1",
+    "marked": "^18.0.5",
     "next": "15.5.19",
     "pg": "^8.22.0",
+    "postcss": "^8.5.16",
     "prisma": "^7.8.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-slick": "^0.31.0",
+    "sanitize-html": "^2.17.5",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
