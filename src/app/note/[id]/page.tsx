@@ -18,6 +18,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     </div>
     <h1 className="text-2xl font-bold text-center">{note?.title}</h1>
     <NotePreview content={note?.content ?? ''} />
-    
   </div>
 }

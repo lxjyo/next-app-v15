@@ -18,7 +18,7 @@ export default function NotePreview({ content }: { content: string }) {
     <div
       className="text-with-markdown"
       dangerouslySetInnerHTML={{
-        __html: sanitizeHtml(marked(content || ""), {
+        __html: sanitizeHtml(marked(content || "", { async: false }), {
           allowedTags,
           allowedAttributes,
         }),

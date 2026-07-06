@@ -1,6 +1,15 @@
+import NoteEditor from "@/components/NoteEditor";
+import { getNote } from '../../actions';
 
-export default async function Page({ params}  : { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;
-  
-  return <div> Note Edit Page: {id}</div>
+  const note = await getNote(id);
+
+  return (
+    <NoteEditor
+      id={note?.id}
+      initTitle={note?.title}
+      initContent={note?.content}
+    />
+  );
 }
