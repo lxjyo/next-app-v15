@@ -3,14 +3,24 @@ import NoteItem from "./NoteItem";
 
 async function getNotes(query: string) {
   const results = await prisma.note.findMany({
-    where: {
-      title: {
-        contains: query,
-      },
-      content: {
-        contains: query,
-      },
-    },
+    where: query
+      ? {
+          OR: [
+            {
+              title: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              content: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        }
+      : undefined,
   });
   return results;
 }

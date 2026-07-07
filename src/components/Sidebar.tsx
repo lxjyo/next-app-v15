@@ -2,6 +2,7 @@ import Link from "next/link";
 import NoteButton from "./NoteButton";
 import NoteList from "./NoteList";
 import NoteListSkeleton from "./NoteListSkeleton";
+import SidebarSearch from "./SidebarSearch";
 import { Suspense } from "react";
 
 export default function Sidebar() {
@@ -11,11 +12,12 @@ export default function Sidebar() {
       <h1 className="text-center font-bold">
         <Link href="/">Notes</Link>
       </h1>
-      <div className="flex justify-end">
+      <div className="flex w-full justify-between gap-2 items-center">
+        <SidebarSearch />
         <NoteButton>New</NoteButton>
       </div>
       <Suspense fallback={<NoteListSkeleton />}>
-        <NoteList />
+        <NoteList/>
       </Suspense>
     </div>
   );
