@@ -4,6 +4,7 @@ import "./globals.css";
 // 使用上下文
 import ThemeProvider from "@/components/ThemeProvider";
 import Sidebar from "@/components/Sidebar";
+import AuthHeader from "@/components/AuthHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex gap-2 w-screen h-screen bg-gray-200">
-          <Sidebar />
-          <div className="flex-1 bg-white p-4">{children}</div>
+        <div className="flex flex-col w-screen h-screen overflow-hidden">
+          <AuthHeader />
+          <div className="flex gap-2 flex-1 bg-gray-200">
+            <Sidebar />
+            <div className="flex-1 bg-white p-4">{children}</div>
+          </div>
         </div>
       </body>
     </html>
