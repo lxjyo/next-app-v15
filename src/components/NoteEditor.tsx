@@ -48,7 +48,7 @@ export default function NoteEditor({
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className="w-1/2 p-2">
+        <div className="w-1/2 p-2 overflow-hidden">
           <div className="flex justify-end mb-2">
             <button
               type="submit"
@@ -77,7 +77,7 @@ export default function NoteEditor({
               {deleteState.message}
             </div>
           )}
-          <div className="mb-2 text-white  bg-blue-300 py-2 px-4 rounded-xl inline-block">
+          <div className="mb-2 text-white  bg-blue-300 py-2 px-4 rounded-xl inline-block overflow-hidden">
             Preview
           </div>
           <NotePreview content={content} />

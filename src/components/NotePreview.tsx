@@ -14,7 +14,7 @@ const allowedAttributes = Object.assign(
   },
 );
 export default function NotePreview({ content }: { content: string }) {
-  return <div className="note-preview">
+  return <div className="note-preview overflow-auto h-full">
     <div
       className="text-with-markdown"
       dangerouslySetInnerHTML={{

@@ -4,6 +4,9 @@ import { revalidatePath  } from "next/cache";
 import type { Note } from "@/generated/prisma/client";
 import { redirect } from "next/navigation";
 import { z } from 'zod';
+import dayjs from "dayjs";
+import path from "path";
+import { stat, mkdir, writeFile } from "fs/promises";
 
 const schema = z.object({
   title: z.string(),
@@ -74,4 +77,37 @@ export async function getNote(id: string): Promise<Note | null> {
     where: { id: parseInt(id) },
   });
   return note;
+}
+
+export async function importNote(formData: FormData) {
+  console.log("importNote called");
+  const file = formData.get("note") as File;
+  if (!file) {
+    throw new Error("No file uploaded");
+  }
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const relativePath = `notes/${dayjs().format("YYYY-MM-DD")}`;
+  const dir = path.join(process.cwd(), "public", relativePath);
+  try {
+    await stat(dir);
+  } catch (error) {
+    await mkdir(dir, { recursive: true });
+  }
+  
+  try {
+    const filename = file.name;
+    const uniqueFilename = `${dayjs().format("YYYY-MM-DD-HH-mm-ss")}-${filename}`;
+    await writeFile(path.join(dir, uniqueFilename), buffer);
+
+    const res = await prisma.note.create({
+      data: {
+        title: filename,
+        content: buffer.toString("utf-8"),
+      },
+    });
+    revalidatePath('/', 'layout')
+    return { id: res.id };
+  } catch (error) {
+    throw new Error("Failed to save note");
+  }
 }

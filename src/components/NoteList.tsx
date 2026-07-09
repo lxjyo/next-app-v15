@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma";
 import NoteItem from "./NoteItem";
+import NoteListFilter from "./NoteListFilter";
 
 async function getNotes(query: string) {
   const results = await prisma.note.findMany({
@@ -26,12 +27,13 @@ async function getNotes(query: string) {
 }
 
 export default async function NoteList() {
-  const notes = await getNotes("");
+  const notes = await getNotes('');
   return (
     <div className="flex-1 overflow-y-auto space-y-2">
-      {notes.map((note: any) => (
+      {/* {notes.map((note: any) => (
         <NoteItem key={note.id} note={note} />
-      ))}
+      ))} */}
+      <NoteListFilter notes={notes} />
     </div>
   );
 }
