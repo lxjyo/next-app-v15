@@ -56,8 +56,6 @@ export default function NoteImport() {
   return (
     <form
       action={uploadNote}
-      method="post"
-      encType="multipart/form-data"
       className="cursor-pointer"
       ref={formRef}
     >

@@ -2,10 +2,12 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
+import authConfig from "./auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   providers: [
-    GitHub,
+    // GitHub,
     CredentialsProvider({
       name: "账号密码登录",
       credentials: {
@@ -41,17 +43,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  pages: {
-    // 完全自定义授权页面
-    // signIn: '/auth'
-  },
-  callbacks: {
-    authorized({ request, auth }) {
-      const { pathname } = request.nextUrl;
-      if (pathname.startsWith("/note/edit")) {
-        return !!auth;
-      }
-      return true;
-    },
-  },
 });

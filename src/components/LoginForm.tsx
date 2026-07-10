@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from "react";
+import { use, useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { authenticate } from "@/app/auth/action";
 
@@ -8,18 +8,23 @@ function LoginButton() {
   const { pending } = useFormStatus();
  
   return (
-    <button className="mt-4 w-full" aria-disabled={pending}>
+    <button className="mt-4 w-full" disabled={pending}>
       Log in
     </button>
   );
 }
 
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}) {
   const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+  const callbackUrl = use(searchParams).callbackUrl ?? '/';
 
   return (
-    <form action={dispatch} method="post" className="space-y-3">
+    <form action={dispatch} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className="mb-3 text-2xl">
           Please log in to continue.
@@ -63,6 +68,7 @@ export default function Page() {
             </div>
           </div>
         </div>
+        <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <LoginButton />
         <div
           className="flex h-8 items-end space-x-1"
