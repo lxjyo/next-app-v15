@@ -11,15 +11,6 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ]
-  },
-  async redirects() {
-    return [
-      {
-        source: '/setting',
-        destination: '/order',
-        permanent: true,
-      }
-    ]
   }
 };
 
